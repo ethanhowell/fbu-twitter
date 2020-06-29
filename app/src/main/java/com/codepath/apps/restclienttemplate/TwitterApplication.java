@@ -16,7 +16,7 @@ import com.facebook.stetho.Stetho;
  *     // use client to send requests to API
  *
  */
-public class RestApplication extends Application {
+public class TwitterApplication extends Application {
 
     MyDatabase myDatabase;
 
@@ -24,7 +24,7 @@ public class RestApplication extends Application {
     public void onCreate() {
         super.onCreate();
         // when upgrading versions, kill the original tables by using
-		// fallbackToDestructiveMigration()
+        // fallbackToDestructiveMigration()
         myDatabase = Room.databaseBuilder(this, MyDatabase.class,
                 MyDatabase.NAME).fallbackToDestructiveMigration().build();
 
@@ -32,8 +32,8 @@ public class RestApplication extends Application {
         Stetho.initializeWithDefaults(this);
     }
 
-    public static RestClient getRestClient(Context context) {
-        return (RestClient) RestClient.getInstance(RestClient.class, context);
+    public static TwitterClient getRestClient(Context context) {
+        return (TwitterClient) TwitterClient.getInstance(TwitterClient.class, context);
     }
 
     public MyDatabase getMyDatabase() {
