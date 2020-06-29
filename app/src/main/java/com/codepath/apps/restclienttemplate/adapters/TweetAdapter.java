@@ -49,19 +49,22 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
         ImageView ivProfileImage;
+        TextView tvName;
         TextView tvScreenName;
         TextView tvText;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             ivProfileImage = binding.ivProfileImage;
+            tvName = binding.tvName;
             tvScreenName = binding.tvScreenName;
             tvText = binding.tvText;
         }
 
         public void bind(Tweet tweet) {
+            tvName.setText(tweet.getUser().getName());
+            tvScreenName.setText(String.format("@%s", tweet.getUser().getScreenName()));
             tvText.setText(tweet.getText());
-            tvScreenName.setText(tweet.getUser().getScreenName());
 
             Glide.with(context)
                     .load(tweet.getUser().getProfileImageUrl())

@@ -18,7 +18,7 @@ public class Tweet {
         user = new User(json.getJSONObject("user"));
     }
 
-    public List<Tweet> fromJsonArray(JSONArray jsonArray) throws JSONException {
+    public static List<Tweet> fromJsonArray(JSONArray jsonArray) throws JSONException {
         List<Tweet> tweets = new ArrayList<>();
         for (int i = 0; i < jsonArray.length(); i++) {
             tweets.add(new Tweet(jsonArray.getJSONObject(i)));
