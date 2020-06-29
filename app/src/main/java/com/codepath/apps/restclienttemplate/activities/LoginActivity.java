@@ -1,7 +1,9 @@
 package com.codepath.apps.restclienttemplate.activities;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Toast;
@@ -16,6 +18,7 @@ import com.codepath.oauth.OAuthLoginActionBarActivity;
 
 public class LoginActivity extends OAuthLoginActionBarActivity<TwitterClient> {
 	private ActivityLoginBinding binding;
+	private static final String TAG = LoginActivity.class.getCanonicalName();
 	SampleModelDao sampleModelDao;
 
 	@Override
@@ -49,9 +52,10 @@ public class LoginActivity extends OAuthLoginActionBarActivity<TwitterClient> {
 	// i.e Display application "homepage"
 	@Override
 	public void onLoginSuccess() {
+		Log.i(TAG, "onLoginSuccess: login success");
 		Toast.makeText(this, "To the bride! To the groom!", Toast.LENGTH_SHORT).show();
-		// Intent i = new Intent(this, PhotosActivity.class);
-		// startActivity(i);
+		Intent i = new Intent(this, TimelineActivity.class);
+		startActivity(i);
 	}
 
 	// OAuth authentication flow failed, handle the error
