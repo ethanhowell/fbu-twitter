@@ -1,6 +1,11 @@
 package com.ethanjhowell.tweeter.models;
 
 import android.text.format.DateUtils;
+import android.util.Log;
+
+import androidx.core.text.HtmlCompat;
+
+import com.github.scribejava.apis.TwitterApi;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -9,25 +14,63 @@ import org.json.JSONObject;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 public class Tweet {
+    private static final String TAG = Tweet.class.getCanonicalName();
     private String text;
     private String createdAt;
     private User user;
+    private String imageUrl;
 
-    private static String twitterPattern = "EEE MMM dd HH:mm:ss ZZZZZ yyyy";
-    private static SimpleDateFormat twitterFormat = new SimpleDateFormat(twitterPattern, Locale.US);
-    private static SimpleDateFormat dateFormat = new SimpleDateFormat("MMM d, yyyy", Locale.US);
+    private static final String twitterPattern = "EEE MMM dd HH:mm:ss ZZZZZ yyyy";
+    private static final SimpleDateFormat twitterFormat = new SimpleDateFormat(twitterPattern, Locale.US);
+    private static final SimpleDateFormat shortDateFormat = new SimpleDateFormat("MMM d", Locale.US);
+    private static final SimpleDateFormat longDateFormat = new SimpleDateFormat("MMM d, yyyy", Locale.US);
 
     public Tweet(JSONObject json) throws JSONException {
-        text = json.getString("text");
+        setDisplayableText(json);
         createdAt = json.getString("created_at");
         user = new User(json.getJSONObject("user"));
+        loadImage(json);
     }
+
+    private void loadImage(JSONObject json) {
+        try {
+            JSONArray media = json.getJSONObject("entities").getJSONArray("media");
+            for (int i = 0; i < media.length(); i++) {
+                JSONObject medium = media.getJSONObject(i);
+                if (medium.getString("type").equals("photo")) {
+                    imageUrl = medium.getString("media_url_https");
+                    return;
+                }
+            }
+        } catch (JSONException e) {
+            Log.d(TAG, "Tweet: "+ e.toString());
+        }
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public boolean hasImageUrl() {
+        return imageUrl != null;
+    }
+
+    private void setDisplayableText(JSONObject json) throws JSONException {
+        JSONArray display_text_range = json.getJSONArray("display_text_range");
+        int start = display_text_range.getInt(0);
+        int end = display_text_range.getInt(1);
+        String full_text = json.getString("full_text");
+        String sub = full_text.substring(start, end);
+        text = HtmlCompat.fromHtml(sub, HtmlCompat.FROM_HTML_MODE_LEGACY).toString();
+    }
+
 
     public static List<Tweet> fromJsonArray(JSONArray jsonArray) throws JSONException {
         List<Tweet> tweets = new ArrayList<>();
@@ -44,15 +87,22 @@ public class Tweet {
     public String getRelativeTimeAgo() {
         try {
             Date created = twitterFormat.parse(getCreatedAt());
-            long difference = System.currentTimeMillis() - created.getTime();
+            Calendar now = Calendar.getInstance();
+            long difference = now.getTimeInMillis() - created.getTime();
             if (difference < DateUtils.MINUTE_IN_MILLIS)
                 return String.format("%ss", TimeUnit.MILLISECONDS.toSeconds(difference));
             else if (difference < DateUtils.HOUR_IN_MILLIS)
                 return String.format("%sm", TimeUnit.MILLISECONDS.toMinutes(difference));
             else if (difference < DateUtils.DAY_IN_MILLIS)
                 return String.format("%sh", TimeUnit.MILLISECONDS.toHours(difference));
-            else
-                return dateFormat.format(created);
+            else {
+                Calendar then = Calendar.getInstance();
+                then.setTime(created);
+                if (then.get(Calendar.YEAR) == now.get(Calendar.YEAR))
+                    return shortDateFormat.format(created);
+                else
+                    return longDateFormat.format(created);
+            }
         } catch (ParseException e) {
             e.printStackTrace();
             return "";
