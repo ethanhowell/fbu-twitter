@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -19,9 +20,10 @@ public class Tweet {
     private String createdAt;
     private User user;
 
-    private static String twitterPattern = "EEE MMM dd HH:mm:ss ZZZZZ yyyy";
-    private static SimpleDateFormat twitterFormat = new SimpleDateFormat(twitterPattern, Locale.US);
-    private static SimpleDateFormat dateFormat = new SimpleDateFormat("MMM d, yyyy", Locale.US);
+    private static final String twitterPattern = "EEE MMM dd HH:mm:ss ZZZZZ yyyy";
+    private static final SimpleDateFormat twitterFormat = new SimpleDateFormat(twitterPattern, Locale.US);
+    private static final SimpleDateFormat shortDateFormat = new SimpleDateFormat("MMM d", Locale.US);
+    private static final SimpleDateFormat longDateFormat = new SimpleDateFormat("MMM d, yyyy", Locale.US);
 
     public Tweet(JSONObject json) throws JSONException {
         text = json.getString("text");
@@ -44,15 +46,22 @@ public class Tweet {
     public String getRelativeTimeAgo() {
         try {
             Date created = twitterFormat.parse(getCreatedAt());
-            long difference = System.currentTimeMillis() - created.getTime();
+            Calendar now = Calendar.getInstance();
+            long difference = now.getTimeInMillis() - created.getTime();
             if (difference < DateUtils.MINUTE_IN_MILLIS)
                 return String.format("%ss", TimeUnit.MILLISECONDS.toSeconds(difference));
             else if (difference < DateUtils.HOUR_IN_MILLIS)
                 return String.format("%sm", TimeUnit.MILLISECONDS.toMinutes(difference));
             else if (difference < DateUtils.DAY_IN_MILLIS)
                 return String.format("%sh", TimeUnit.MILLISECONDS.toHours(difference));
-            else
-                return dateFormat.format(created);
+            else {
+                Calendar then = Calendar.getInstance();
+                then.setTime(created);
+                if (then.get(Calendar.YEAR) == now.get(Calendar.YEAR))
+                    return shortDateFormat.format(created);
+                else
+                    return longDateFormat.format(created);
+            }
         } catch (ParseException e) {
             e.printStackTrace();
             return "";
