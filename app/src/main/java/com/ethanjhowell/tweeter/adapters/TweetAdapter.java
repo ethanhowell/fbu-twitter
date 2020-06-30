@@ -15,18 +15,19 @@ import com.ethanjhowell.tweeter.databinding.ItemTweetBinding;
 import com.ethanjhowell.tweeter.models.Tweet;
 import com.ethanjhowell.tweeter.models.User;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
 public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> {
     private final static String TAG = TweetAdapter.class.getCanonicalName();
-    Context context;
-    List<Tweet> tweets;
-    ItemTweetBinding binding;
+    private Context context;
+    private List<Tweet> tweets;
+    private ItemTweetBinding binding;
 
-    public TweetAdapter(Context context, List<Tweet> tweets) {
+    public TweetAdapter(Context context) {
         this.context = context;
-        this.tweets = tweets;
+        this.tweets = new ArrayList<>();
     }
 
     @NonNull
@@ -40,6 +41,21 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.bind(tweets.get(position));
+    }
+
+    public void clear() {
+        tweets.clear();
+        notifyDataSetChanged();
+    }
+
+    public void addAll(List<Tweet> list) {
+        tweets.addAll(list);
+        notifyDataSetChanged();
+    }
+
+    public void setTweets(List<Tweet> tweets) {
+        this.tweets = tweets;
+        notifyDataSetChanged();
     }
 
     @Override
