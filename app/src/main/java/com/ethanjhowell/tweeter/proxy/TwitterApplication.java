@@ -1,11 +1,11 @@
-package com.codepath.apps.restclienttemplate.proxy;
+package com.ethanjhowell.tweeter.proxy;
 
 import android.app.Application;
 import android.content.Context;
 
 import androidx.room.Room;
 
-import com.codepath.apps.restclienttemplate.MyDatabase;
+import com.ethanjhowell.tweeter.MyDatabase;
 import com.facebook.stetho.Stetho;
 
 /*

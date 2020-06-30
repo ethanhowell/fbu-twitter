@@ -1,4 +1,4 @@
-package com.codepath.apps.restclienttemplate.activities;
+package com.ethanjhowell.tweeter.activities;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -8,13 +8,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.codepath.apps.restclienttemplate.R;
-import com.codepath.apps.restclienttemplate.adapters.TweetAdapter;
-import com.codepath.apps.restclienttemplate.databinding.ActivityTimelineBinding;
-import com.codepath.apps.restclienttemplate.models.Tweet;
-import com.codepath.apps.restclienttemplate.proxy.TwitterApplication;
-import com.codepath.apps.restclienttemplate.proxy.TwitterClient;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
+import com.ethanjhowell.tweeter.R;
+import com.ethanjhowell.tweeter.adapters.TweetAdapter;
+import com.ethanjhowell.tweeter.databinding.ActivityTimelineBinding;
+import com.ethanjhowell.tweeter.models.Tweet;
+import com.ethanjhowell.tweeter.proxy.TwitterApplication;
+import com.ethanjhowell.tweeter.proxy.TwitterClient;
 
 import org.json.JSONException;
 

@@ -1,4 +1,4 @@
-package com.codepath.apps.restclienttemplate.models;
+package com.ethanjhowell.tweeter.models;
 
 import android.text.format.DateUtils;
 

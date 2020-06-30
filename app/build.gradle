@@ -12,7 +12,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.codepath.apps.restclienttemplate"
+        applicationId "com.ethanjhowell.tweeter"
         minSdkVersion 21
         //noinspection OldTargetApi
         targetSdkVersion 28

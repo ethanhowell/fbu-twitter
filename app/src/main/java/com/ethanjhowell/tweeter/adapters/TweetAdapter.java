@@ -1,4 +1,4 @@
-package com.codepath.apps.restclienttemplate.adapters;
+package com.ethanjhowell.tweeter.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,9 +11,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.codepath.apps.restclienttemplate.databinding.ItemTweetBinding;
-import com.codepath.apps.restclienttemplate.models.Tweet;
-import com.codepath.apps.restclienttemplate.models.User;
+import com.ethanjhowell.tweeter.databinding.ItemTweetBinding;
+import com.ethanjhowell.tweeter.models.Tweet;
+import com.ethanjhowell.tweeter.models.User;
 
 import java.util.List;
 

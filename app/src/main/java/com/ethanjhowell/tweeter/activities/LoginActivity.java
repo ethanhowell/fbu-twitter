@@ -1,4 +1,4 @@
-package com.codepath.apps.restclienttemplate.activities;
+package com.ethanjhowell.tweeter.activities;
 
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -7,13 +7,13 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 
-import com.codepath.apps.restclienttemplate.R;
-import com.codepath.apps.restclienttemplate.databinding.ActivityLoginBinding;
-import com.codepath.apps.restclienttemplate.models.SampleModel;
-import com.codepath.apps.restclienttemplate.models.SampleModelDao;
-import com.codepath.apps.restclienttemplate.proxy.TwitterApplication;
-import com.codepath.apps.restclienttemplate.proxy.TwitterClient;
 import com.codepath.oauth.OAuthLoginActionBarActivity;
+import com.ethanjhowell.tweeter.R;
+import com.ethanjhowell.tweeter.databinding.ActivityLoginBinding;
+import com.ethanjhowell.tweeter.models.SampleModel;
+import com.ethanjhowell.tweeter.models.SampleModelDao;
+import com.ethanjhowell.tweeter.proxy.TwitterApplication;
+import com.ethanjhowell.tweeter.proxy.TwitterClient;
 
 public class LoginActivity extends OAuthLoginActionBarActivity<TwitterClient> {
 	private ActivityLoginBinding binding;
