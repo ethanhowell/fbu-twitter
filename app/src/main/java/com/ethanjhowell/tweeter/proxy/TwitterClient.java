@@ -51,6 +51,8 @@ public class TwitterClient extends OAuthBaseClient {
 		// Can specify query string params directly or through RequestParams.
 		RequestParams params = new RequestParams();
 		params.put("count", NUM_TWEETS);
+		// to get the full tweet instead of the truncated value
+		params.put("tweet_mode", "extended");
 		client.get(apiUrl, params, handler);
 	}
 

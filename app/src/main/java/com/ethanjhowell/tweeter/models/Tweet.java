@@ -24,7 +24,7 @@ public class Tweet {
     private static SimpleDateFormat dateFormat = new SimpleDateFormat("MMM d, yyyy", Locale.US);
 
     public Tweet(JSONObject json) throws JSONException {
-        text = json.getString("text");
+        text = json.getString("full_text");
         createdAt = json.getString("created_at");
         user = new User(json.getJSONObject("user"));
     }
