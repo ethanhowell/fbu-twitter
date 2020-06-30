@@ -70,6 +70,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
                     .load(tweet.getUser().getProfileImageUrl())
                     // TODO: placeholder image
 //                    .placeholder(placeholder)
+                    .circleCrop()
                     .into(ivProfileImage);
         }
     }
