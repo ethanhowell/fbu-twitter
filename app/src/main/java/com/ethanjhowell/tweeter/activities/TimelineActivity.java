@@ -7,6 +7,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.ethanjhowell.tweeter.R;
@@ -25,6 +26,7 @@ public class TimelineActivity extends AppCompatActivity {
     private ActivityTimelineBinding binding;
     private TwitterClient client;
     private TweetAdapter adapter;
+    private SwipeRefreshLayout swipeContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,13 +40,20 @@ public class TimelineActivity extends AppCompatActivity {
 
         RecyclerView rvTweets = binding.rvTweets;
         adapter = new TweetAdapter(this);
+        populateTimeline();
         rvTweets.setAdapter(adapter);
         rvTweets.setLayoutManager(new LinearLayoutManager(this));
 
-        populateTimeline();
+        swipeContainer = binding.swipeContainer;
+        swipeContainer.setOnRefreshListener(() -> {
+            Log.d(TAG, "swiping");
+            populateTimeline();
+        });
+
     }
 
     private void populateTimeline() {
+        Log.d(TAG, "populateTimeline: fetching timeline");
         client.getHomeTimeline(new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Headers headers, JSON json) {
@@ -55,12 +64,14 @@ public class TimelineActivity extends AppCompatActivity {
                     Log.e(TAG, "onFailure: json error", e);
                     Toast.makeText(TimelineActivity.this, "Sorry, there was a problem.", Toast.LENGTH_LONG).show();
                 }
+                swipeContainer.setRefreshing(false);
             }
 
             @Override
             public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
-                Log.e(TAG, "onFailure: unable to download timeline", throwable);
+                Log.e(TAG, "onFailure: unable to download timeline - " + response, throwable);
                 Toast.makeText(TimelineActivity.this, "Sorry, there was a problem.", Toast.LENGTH_LONG).show();
+                swipeContainer.setRefreshing(false);
             }
         });
     }
