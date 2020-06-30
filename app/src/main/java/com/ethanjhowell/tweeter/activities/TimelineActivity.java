@@ -2,6 +2,8 @@ package com.ethanjhowell.tweeter.activities;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -50,6 +52,22 @@ public class TimelineActivity extends AppCompatActivity {
             populateTimeline();
         });
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.timeline, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.composeTweet:
+                Log.i(TAG, "onOptionsItemSelected: composing new tweet");
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void populateTimeline() {
