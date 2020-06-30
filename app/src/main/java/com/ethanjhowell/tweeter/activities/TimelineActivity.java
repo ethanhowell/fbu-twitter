@@ -50,7 +50,7 @@ public class TimelineActivity extends AppCompatActivity {
             public void onSuccess(int statusCode, Headers headers, JSON json) {
                 Log.i(TAG, "onSuccess: " + json.toString());
                 try {
-                    adapter.addAll(Tweet.fromJsonArray(json.jsonArray));
+                    adapter.setTweets(Tweet.fromJsonArray(json.jsonArray));
                 } catch (JSONException e) {
                     Log.e(TAG, "onFailure: json error", e);
                     Toast.makeText(TimelineActivity.this, "Sorry, there was a problem.", Toast.LENGTH_LONG).show();

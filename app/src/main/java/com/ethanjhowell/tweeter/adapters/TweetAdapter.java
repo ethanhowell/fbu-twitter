@@ -53,6 +53,11 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         notifyDataSetChanged();
     }
 
+    public void setTweets(List<Tweet> tweets) {
+        this.tweets = tweets;
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getItemCount() {
         return tweets.size();
