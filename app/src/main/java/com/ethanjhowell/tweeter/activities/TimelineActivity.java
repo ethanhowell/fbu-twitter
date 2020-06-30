@@ -1,5 +1,6 @@
 package com.ethanjhowell.tweeter.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -7,6 +8,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
@@ -35,8 +37,9 @@ public class TimelineActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityTimelineBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        binding.toolbar.setTitle(R.string.timeline_title);
-        setSupportActionBar(binding.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle(R.string.timeline_title);
+        setSupportActionBar(toolbar);
 
         client = TwitterApplication.getRestClient(this);
 
@@ -62,10 +65,10 @@ public class TimelineActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.composeTweet:
-                Log.i(TAG, "onOptionsItemSelected: composing new tweet");
-                return true;
+        if (item.getItemId() == R.id.composeTweet) {
+            Log.i(TAG, "onOptionsItemSelected: composing new tweet");
+            startActivity(new Intent(this, ComposeActivity.class));
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
