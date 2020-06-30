@@ -18,16 +18,12 @@ import com.ethanjhowell.tweeter.proxy.TwitterClient;
 
 import org.json.JSONException;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import okhttp3.Headers;
 
 public class TimelineActivity extends AppCompatActivity {
     private static final String TAG = TimelineActivity.class.getCanonicalName();
     private ActivityTimelineBinding binding;
     private TwitterClient client;
-    private List<Tweet> tweets;
     private TweetAdapter adapter;
 
     @Override
@@ -41,8 +37,7 @@ public class TimelineActivity extends AppCompatActivity {
         client = TwitterApplication.getRestClient(this);
 
         RecyclerView rvTweets = binding.rvTweets;
-        tweets = new ArrayList<>();
-        adapter = new TweetAdapter(this, tweets);
+        adapter = new TweetAdapter(this);
         rvTweets.setAdapter(adapter);
         rvTweets.setLayoutManager(new LinearLayoutManager(this));
 
@@ -55,8 +50,7 @@ public class TimelineActivity extends AppCompatActivity {
             public void onSuccess(int statusCode, Headers headers, JSON json) {
                 Log.i(TAG, "onSuccess: " + json.toString());
                 try {
-                    tweets.addAll(Tweet.fromJsonArray(json.jsonArray));
-                    adapter.notifyDataSetChanged();
+                    adapter.addAll(Tweet.fromJsonArray(json.jsonArray));
                 } catch (JSONException e) {
                     Log.e(TAG, "onFailure: json error", e);
                     Toast.makeText(TimelineActivity.this, "Sorry, there was a problem.", Toast.LENGTH_LONG).show();
