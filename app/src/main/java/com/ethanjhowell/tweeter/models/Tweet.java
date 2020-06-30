@@ -2,6 +2,8 @@ package com.ethanjhowell.tweeter.models;
 
 import android.text.format.DateUtils;
 
+import androidx.core.text.HtmlCompat;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -26,10 +28,20 @@ public class Tweet {
     private static final SimpleDateFormat longDateFormat = new SimpleDateFormat("MMM d, yyyy", Locale.US);
 
     public Tweet(JSONObject json) throws JSONException {
-        text = json.getString("text");
+        setDisplayableText(json);
         createdAt = json.getString("created_at");
         user = new User(json.getJSONObject("user"));
     }
+
+    private void setDisplayableText(JSONObject json) throws JSONException {
+        JSONArray display_text_range = json.getJSONArray("display_text_range");
+        int start = display_text_range.getInt(0);
+        int end = display_text_range.getInt(1);
+        String full_text = json.getString("full_text");
+        String sub = full_text.substring(start, end);
+        text = HtmlCompat.fromHtml(sub, HtmlCompat.FROM_HTML_MODE_LEGACY).toString();
+    }
+
 
     public static List<Tweet> fromJsonArray(JSONArray jsonArray) throws JSONException {
         List<Tweet> tweets = new ArrayList<>();
