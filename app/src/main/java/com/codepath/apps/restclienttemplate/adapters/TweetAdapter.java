@@ -65,7 +65,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         public void bind(Tweet tweet) {
             User user = tweet.getUser();
             tvName.setText(user.getName());
-            tvTweetMeta.setText(String.format("@%s · %s", user.getScreenName(), tweet.getRelativeTimeAgo()));
+            tvTweetMeta.setText(String.format(" @%s · %s", user.getScreenName(), tweet.getRelativeTimeAgo()));
             tvText.setText(tweet.getText());
 
             Glide.with(context)

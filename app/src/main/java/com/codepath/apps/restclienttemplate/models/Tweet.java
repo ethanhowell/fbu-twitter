@@ -9,13 +9,19 @@ import org.json.JSONObject;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 public class Tweet {
     private String text;
     private String createdAt;
     private User user;
+
+    private static String twitterPattern = "EEE MMM dd HH:mm:ss ZZZZZ yyyy";
+    private static SimpleDateFormat twitterFormat = new SimpleDateFormat(twitterPattern, Locale.US);
+    private static SimpleDateFormat dateFormat = new SimpleDateFormat("MMM d, yyyy", Locale.US);
 
     public Tweet(JSONObject json) throws JSONException {
         text = json.getString("text");
@@ -36,16 +42,17 @@ public class Tweet {
     }
 
     public String getRelativeTimeAgo() {
-        String twitterFormat = "EEE MMM dd HH:mm:ss ZZZZZ yyyy";
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(twitterFormat, Locale.ENGLISH);
-        simpleDateFormat.setLenient(true);
-
         try {
-            return DateUtils.getRelativeTimeSpanString(
-                    simpleDateFormat.parse(getCreatedAt()).getTime(),
-                    System.currentTimeMillis(),
-                    DateUtils.SECOND_IN_MILLIS
-            ).toString();
+            Date created = twitterFormat.parse(getCreatedAt());
+            long difference = System.currentTimeMillis() - created.getTime();
+            if (difference < DateUtils.MINUTE_IN_MILLIS)
+                return String.format("%ss", TimeUnit.MILLISECONDS.toSeconds(difference));
+            else if (difference < DateUtils.HOUR_IN_MILLIS)
+                return String.format("%sm", TimeUnit.MILLISECONDS.toMinutes(difference));
+            else if (difference < DateUtils.DAY_IN_MILLIS)
+                return String.format("%sh", TimeUnit.MILLISECONDS.toHours(difference));
+            else
+                return dateFormat.format(created);
         } catch (ParseException e) {
             e.printStackTrace();
             return "";
