@@ -7,5 +7,6 @@
     <string name="intent_host">cprest</string>
     <string name="profile_picture">profile picture</string>
     <string name="timeline_title">Home</string>
+    <string name="featured_image">featured image</string>
 
 </resources>
