@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.codepath.apps.restclienttemplate.databinding.ItemTweetBinding;
 import com.codepath.apps.restclienttemplate.models.Tweet;
+import com.codepath.apps.restclienttemplate.models.User;
 
 import java.util.List;
 
@@ -51,6 +52,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         ImageView ivProfileImage;
         TextView tvName;
         TextView tvScreenName;
+        TextView tvRelativeTime;
         TextView tvText;
 
         public ViewHolder(@NonNull View itemView) {
@@ -58,18 +60,19 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
             ivProfileImage = binding.ivProfileImage;
             tvName = binding.tvName;
             tvScreenName = binding.tvScreenName;
+            tvRelativeTime = binding.tvRelativeTime;
             tvText = binding.tvText;
         }
 
         public void bind(Tweet tweet) {
-            tvName.setText(tweet.getUser().getName());
-            tvScreenName.setText(String.format("@%s", tweet.getUser().getScreenName()));
+            User user = tweet.getUser();
+            tvName.setText(user.getName());
+            tvScreenName.setText(String.format("@%s", user.getScreenName()));
+            tvRelativeTime.setText(tweet.getRelativeTimeAgo());
             tvText.setText(tweet.getText());
 
             Glide.with(context)
-                    .load(tweet.getUser().getProfileImageUrl())
-                    // TODO: placeholder image
-//                    .placeholder(placeholder)
+                    .load(user.getProfileImageUrl())
                     .circleCrop()
                     .into(ivProfileImage);
         }

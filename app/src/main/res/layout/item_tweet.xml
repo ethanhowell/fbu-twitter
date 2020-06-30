@@ -34,9 +34,19 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         app:layout_constraintStart_toEndOf="@+id/tvName"
+        android:textColor="?attr/colorAccent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="\@me" />
+
+    <TextView
+        android:id="@+id/tvRelativeTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="4dp"
+        app:layout_constraintStart_toEndOf="@+id/tvScreenName"
         app:layout_constraintTop_toTopOf="parent"
         android:textColor="?attr/colorAccent"
-        tools:text="\@me" />
+        tools:text="8min ago" />
 
     <TextView
         android:id="@+id/tvText"

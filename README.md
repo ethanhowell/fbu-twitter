@@ -2,15 +2,15 @@
 
 **Tweeter** is an android app that allows a user to view their Twitter timeline and post a new tweet. The app utilizes [Twitter REST API](https://dev.twitter.com/rest/public).
 
-Time spent: **1** hours spent in total
+Time spent: **5** hours spent in total
 
 ## User Stories
 
 The following **required** functionality is completed:
 
 * [X]	User can **sign in to Twitter** using OAuth login
-* [ ]	User can **view tweets from their home timeline**
-  * [ ] User is displayed the username, name, and body for each tweet
+* [X]	User can **view tweets from their home timeline**
+  * [X] User is displayed the username, name, and body for each tweet
   * [ ] User is displayed the [relative timestamp](https://gist.github.com/nesquena/f786232f5ef72f6e10a7) for each tweet "8m", "7h"
 * [ ] User can **compose and post a new tweet**
   * [ ] User can click a “Compose” icon in the Action Bar on the top right
@@ -23,7 +23,7 @@ The following **required** functionality is completed:
 
 The following **stretch** features are implemented:
 
-* [ ] User is using **"Twitter branded" colors and styles**
+* [X] User is using **"Twitter branded" colors and styles**
 * [ ] User sees an **indeterminate progress indicator** when any background or network task is happening
 * [ ] User can **select "reply" from detail view to respond to a tweet**
   * [ ] User that wrote the original tweet is **automatically "@" replied in compose**
@@ -35,7 +35,7 @@ The following **stretch** features are implemented:
 * [ ] Use Parcelable instead of Serializable using the popular [Parceler library](http://guides.codepath.org/android/Using-Parceler).
 * [ ] Replace all icon drawables and other static image assets with [vector drawables](http://guides.codepath.org/android/Drawables#vector-drawables) where appropriate.
 * [ ] User can view following / followers list through any profile they view.
-* [ ] Use the View Binding library to reduce view boilerplate.
+* [X] Use the View Binding library to reduce view boilerplate.
 * [ ] On the Twitter timeline, leverage the [CoordinatorLayout](http://guides.codepath.org/android/Handling-Scrolls-with-CoordinatorLayout#responding-to-scroll-events) to apply scrolling behavior that [hides / shows the toolbar](http://guides.codepath.org/android/Using-the-App-ToolBar#reacting-to-scroll).
 * [ ] User can **open the twitter app offline and see last loaded tweets**. Persisted in SQLite tweets are refreshed on every application launch. While "live data" is displayed when app can get it from Twitter API, it is also saved for use in offline mode.
 
