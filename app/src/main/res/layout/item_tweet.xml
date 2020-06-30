@@ -29,24 +29,14 @@
         tools:text="my name" />
 
     <TextView
-        android:id="@+id/tvScreenName"
+        android:id="@+id/tvTweetMeta"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
         app:layout_constraintStart_toEndOf="@+id/tvName"
-        android:textColor="?attr/colorAccent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="\@me" />
-
-    <TextView
-        android:id="@+id/tvRelativeTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        app:layout_constraintStart_toEndOf="@+id/tvScreenName"
         app:layout_constraintTop_toTopOf="parent"
         android:textColor="?attr/colorAccent"
-        tools:text="8min ago" />
+        tools:text="1h" />
 
     <TextView
         android:id="@+id/tvText"
@@ -56,6 +46,6 @@
         android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/tvName"
-        app:layout_constraintTop_toBottomOf="@+id/tvScreenName"
+        app:layout_constraintTop_toBottomOf="@+id/tvName"
         tools:text="@tools:sample/lorem/random" />
 </androidx.constraintlayout.widget.ConstraintLayout>

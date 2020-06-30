@@ -51,24 +51,21 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
 
         ImageView ivProfileImage;
         TextView tvName;
-        TextView tvScreenName;
-        TextView tvRelativeTime;
+        TextView tvTweetMeta;
         TextView tvText;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             ivProfileImage = binding.ivProfileImage;
             tvName = binding.tvName;
-            tvScreenName = binding.tvScreenName;
-            tvRelativeTime = binding.tvRelativeTime;
+            tvTweetMeta = binding.tvTweetMeta;
             tvText = binding.tvText;
         }
 
         public void bind(Tweet tweet) {
             User user = tweet.getUser();
             tvName.setText(user.getName());
-            tvScreenName.setText(String.format("@%s", user.getScreenName()));
-            tvRelativeTime.setText(tweet.getRelativeTimeAgo());
+            tvTweetMeta.setText(String.format("@%s · %s", user.getScreenName(), tweet.getRelativeTimeAgo()));
             tvText.setText(tweet.getText());
 
             Glide.with(context)
