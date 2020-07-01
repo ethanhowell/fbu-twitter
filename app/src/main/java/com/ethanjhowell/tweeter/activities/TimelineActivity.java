@@ -7,6 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -22,6 +23,7 @@ import com.ethanjhowell.tweeter.proxy.TwitterApplication;
 import com.ethanjhowell.tweeter.proxy.TwitterClient;
 
 import org.json.JSONException;
+import org.parceler.Parcels;
 
 import okhttp3.Headers;
 
@@ -31,6 +33,8 @@ public class TimelineActivity extends AppCompatActivity {
     private TwitterClient client;
     private TweetAdapter adapter;
     private SwipeRefreshLayout swipeContainer;
+
+    private static final short COMPOSE_REQUEST_CODE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,10 +71,21 @@ public class TimelineActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.composeTweet) {
             Log.i(TAG, "onOptionsItemSelected: composing new tweet");
-            startActivity(new Intent(this, ComposeActivity.class));
+            startActivityForResult(new Intent(this, ComposeActivity.class), COMPOSE_REQUEST_CODE);
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        Log.d(TAG, String.format("onActivityResult: requestCode=%d, resultCode=%d", requestCode, resultCode));
+        if (requestCode == COMPOSE_REQUEST_CODE && resultCode == RESULT_OK) {
+            Tweet tweet = Parcels.unwrap(data.getParcelableExtra(Tweet.class.getSimpleName()));
+            Log.i(TAG, "onActivityResult: returning " + tweet.getText());
+            adapter.prepend(tweet);
+        } else
+            super.onActivityResult(requestCode, resultCode, data);
     }
 
     private void populateTimeline() {

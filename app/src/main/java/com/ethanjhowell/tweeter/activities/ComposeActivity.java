@@ -1,5 +1,6 @@
 package com.ethanjhowell.tweeter.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputFilter;
@@ -15,8 +16,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.ethanjhowell.tweeter.databinding.ActivityComposeBinding;
 import com.ethanjhowell.tweeter.databinding.ToolbarBinding;
+import com.ethanjhowell.tweeter.models.Tweet;
 import com.ethanjhowell.tweeter.proxy.TwitterApplication;
 import com.ethanjhowell.tweeter.proxy.TwitterClient;
+
+import org.json.JSONException;
+import org.parceler.Parcels;
 
 import java.util.Objects;
 
@@ -60,6 +65,16 @@ public class ComposeActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(int statusCode, Headers headers, JSON json) {
                     Log.i(TAG, "onSuccess: " + json.jsonObject);
+                    try {
+                        Tweet tweet = new Tweet(json.jsonObject);
+                        Intent intent = new Intent();
+                        intent.putExtra(Tweet.class.getSimpleName(), Parcels.wrap(tweet));
+                        setResult(RESULT_OK, intent);
+                    } catch (JSONException e) {
+                        Log.e(TAG, "onSuccess: failure deserializing tweet", e);
+                        setResult(RESULT_CANCELED);
+                    }
+                    finish();
                 }
 
                 @Override
