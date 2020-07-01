@@ -29,9 +29,20 @@
         android:id="@+id/tvCharLeft"
         android:layout_width="wrap_content"
         android:layout_height="?attr/actionBarSize"
+        android:layout_marginBottom="16dp"
         android:gravity="center_vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/etTweetBody"
+        app:layout_constraintEnd_toStartOf="@+id/bTweet"
         tools:text="280" />
+
+    <Button
+        android:id="@+id/bTweet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:enabled="false"
+        android:text="Tweet"
+        app:layout_constraintBottom_toBottomOf="@+id/tvCharLeft"
+        app:layout_constraintEnd_toEndOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
+import android.util.Log;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -20,6 +22,7 @@ public class ComposeActivity extends AppCompatActivity {
     private static final int MAX_TWEET_LENGTH = 280;
     private EditText etTweetBody;
     private TextView tvCharLeft;
+    private Button bTweet;
 
     private void updateCharLeft() {
         tvCharLeft.setText(Integer.toString(MAX_TWEET_LENGTH - etTweetBody.length()));
@@ -37,7 +40,14 @@ public class ComposeActivity extends AppCompatActivity {
 
         etTweetBody = binding.etTweetBody;
         tvCharLeft = binding.tvCharLeft;
+        bTweet = binding.bTweet;
         updateCharLeft();
+
+
+        bTweet.setOnClickListener(v -> {
+            Log.d(TAG, "onCreate: preparing to tweet: " + etTweetBody.getText());
+        });
+
         // show keyboard and focus the edittext, set max length of input
         etTweetBody.setFilters(new InputFilter[]{new InputFilter.LengthFilter(MAX_TWEET_LENGTH)});
         etTweetBody.requestFocus();
@@ -55,6 +65,8 @@ public class ComposeActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable editable) {
                 updateCharLeft();
+                if (editable.length() > 0)
+                    bTweet.setEnabled(true);
             }
         });
     }
