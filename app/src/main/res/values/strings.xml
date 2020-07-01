@@ -7,10 +7,7 @@
     <string name="intent_host">cprest</string>
     <string name="profile_picture">profile picture</string>
     <string name="timeline_title">Home</string>
-<<<<<<< HEAD
     <string name="compose_tweet_title">Compose Tweet</string>
-=======
     <string name="featured_image">featured image</string>
->>>>>>> master
 
 </resources>
