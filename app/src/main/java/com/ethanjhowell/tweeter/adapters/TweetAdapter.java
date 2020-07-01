@@ -1,6 +1,7 @@
 package com.ethanjhowell.tweeter.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -83,6 +84,13 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
             tvName.setText(user.getName());
             tvTweetMeta.setText(String.format(" @%s · %s", user.getScreenName(), tweet.getRelativeTimeAgo()));
             tvText.setText(tweet.getText());
+
+            if (tweet.hasImageUrl()) {
+                Log.d(TAG, "bind: attaching image for " + tweet.getText() + " " + tweet.getImageUrl());
+                Glide.with(context)
+                    .load(tweet.getImageUrl())
+                    .into(binding.ivTweetImage);
+            }
 
             Glide.with(context)
                     .load(user.getProfileImageUrl())

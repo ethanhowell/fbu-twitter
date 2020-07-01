@@ -1,8 +1,11 @@
 package com.ethanjhowell.tweeter.models;
 
 import android.text.format.DateUtils;
+import android.util.Log;
 
 import androidx.core.text.HtmlCompat;
+
+import com.github.scribejava.apis.TwitterApi;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -18,9 +21,11 @@ import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 public class Tweet {
+    private static final String TAG = Tweet.class.getCanonicalName();
     private String text;
     private String createdAt;
     private User user;
+    private String imageUrl;
 
     private static final String twitterPattern = "EEE MMM dd HH:mm:ss ZZZZZ yyyy";
     private static final SimpleDateFormat twitterFormat = new SimpleDateFormat(twitterPattern, Locale.US);
@@ -31,6 +36,30 @@ public class Tweet {
         setDisplayableText(json);
         createdAt = json.getString("created_at");
         user = new User(json.getJSONObject("user"));
+        loadImage(json);
+    }
+
+    private void loadImage(JSONObject json) {
+        try {
+            JSONArray media = json.getJSONObject("entities").getJSONArray("media");
+            for (int i = 0; i < media.length(); i++) {
+                JSONObject medium = media.getJSONObject(i);
+                if (medium.getString("type").equals("photo")) {
+                    imageUrl = medium.getString("media_url_https");
+                    return;
+                }
+            }
+        } catch (JSONException e) {
+            Log.d(TAG, "Tweet: "+ e.toString());
+        }
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public boolean hasImageUrl() {
+        return imageUrl != null;
     }
 
     private void setDisplayableText(JSONObject json) throws JSONException {

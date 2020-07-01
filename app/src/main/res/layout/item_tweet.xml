@@ -2,7 +2,6 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/ivTweetImage"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="16dp"
@@ -42,7 +41,7 @@
         android:id="@+id/tvText"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/tvName"
@@ -50,7 +49,7 @@
         tools:text=" huao groahrg;ouh raougha orghaorughao dsurghao;sruhg aosrugh oahg o huo HoU Ho;h UH uHiHi Gdsyfg ADYFG jyg dsjfgJEFYgWYIEFY GiYG ygisydgfi Gyssdfyui yuiy uyiSDf fwey ui yuYEIW eIU IUxy iCypiweuyf DSkfhgds" />
 
     <ImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/ivTweetImage"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
