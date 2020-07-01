@@ -1,7 +1,11 @@
 package com.ethanjhowell.tweeter.activities;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.InputFilter;
+import android.text.TextWatcher;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -13,6 +17,13 @@ import java.util.Objects;
 public class ComposeActivity extends AppCompatActivity {
     private static final String TAG = ComposeActivity.class.getCanonicalName();
     private ActivityComposeBinding binding;
+    private static final int MAX_TWEET_LENGTH = 280;
+    private EditText etTweetBody;
+    private TextView tvCharLeft;
+
+    private void updateCharLeft() {
+        tvCharLeft.setText(Integer.toString(MAX_TWEET_LENGTH - etTweetBody.length()));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,8 +35,27 @@ public class ComposeActivity extends AppCompatActivity {
         setSupportActionBar(toolbarBinding.toolbar);
         Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
-        EditText etTweetBody = binding.etTweetBody;
-        // show keyboard and focus the edittext
+        etTweetBody = binding.etTweetBody;
+        tvCharLeft = binding.tvCharLeft;
+        updateCharLeft();
+        // show keyboard and focus the edittext, set max length of input
+        etTweetBody.setFilters(new InputFilter[]{new InputFilter.LengthFilter(MAX_TWEET_LENGTH)});
         etTweetBody.requestFocus();
+        etTweetBody.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                updateCharLeft();
+            }
+        });
     }
 }
