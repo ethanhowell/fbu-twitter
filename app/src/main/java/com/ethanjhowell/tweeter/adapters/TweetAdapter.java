@@ -50,6 +50,11 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         notifyDataSetChanged();
     }
 
+    public void prepend(Tweet tweet) {
+        tweets.add(0, tweet);
+        notifyItemInserted(0);
+    }
+
     public void addAll(List<Tweet> list) {
         tweets.addAll(list);
         notifyDataSetChanged();
