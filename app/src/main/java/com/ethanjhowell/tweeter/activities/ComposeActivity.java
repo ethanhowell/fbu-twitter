@@ -8,13 +8,19 @@ import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 import com.ethanjhowell.tweeter.databinding.ActivityComposeBinding;
 import com.ethanjhowell.tweeter.databinding.ToolbarBinding;
+import com.ethanjhowell.tweeter.proxy.TwitterApplication;
+import com.ethanjhowell.tweeter.proxy.TwitterClient;
 
 import java.util.Objects;
+
+import okhttp3.Headers;
 
 public class ComposeActivity extends AppCompatActivity {
     private static final String TAG = ComposeActivity.class.getCanonicalName();
@@ -23,6 +29,7 @@ public class ComposeActivity extends AppCompatActivity {
     private EditText etTweetBody;
     private TextView tvCharLeft;
     private Button bTweet;
+    private TwitterClient client;
 
     private void updateCharLeft() {
         tvCharLeft.setText(Integer.toString(MAX_TWEET_LENGTH - etTweetBody.length()));
@@ -33,6 +40,9 @@ public class ComposeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityComposeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        client = TwitterApplication.getRestClient(this);
+
+
         ToolbarBinding toolbarBinding = binding.include;
         toolbarBinding.toolbar.setTitle("");
         setSupportActionBar(toolbarBinding.toolbar);
@@ -46,6 +56,18 @@ public class ComposeActivity extends AppCompatActivity {
 
         bTweet.setOnClickListener(v -> {
             Log.d(TAG, "onCreate: preparing to tweet: " + etTweetBody.getText());
+            client.publishTweet(etTweetBody.getText().toString(), new JsonHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, Headers headers, JSON json) {
+                    Log.i(TAG, "onSuccess: " + json.jsonObject);
+                }
+
+                @Override
+                public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+                    Toast.makeText(ComposeActivity.this, "Sorry, there was a problem. Try again.", Toast.LENGTH_LONG).show();
+                    Log.e(TAG, "onFailure: unable to publish tweet - " + response, throwable);
+                }
+            });
         });
 
         // show keyboard and focus the edittext, set max length of input
