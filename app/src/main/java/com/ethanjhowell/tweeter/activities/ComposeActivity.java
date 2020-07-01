@@ -65,8 +65,7 @@ public class ComposeActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable editable) {
                 updateCharLeft();
-                if (editable.length() > 0)
-                    bTweet.setEnabled(true);
+                bTweet.setEnabled(editable.length() > 0);
             }
         });
     }
