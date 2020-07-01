@@ -65,11 +65,11 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-
-        ImageView ivProfileImage;
-        TextView tvName;
-        TextView tvTweetMeta;
-        TextView tvText;
+        private ImageView ivProfileImage;
+        private TextView tvName;
+        private TextView tvTweetMeta;
+        private TextView tvText;
+        private ImageView ivTweetImage;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -77,6 +77,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
             tvName = binding.tvName;
             tvTweetMeta = binding.tvTweetMeta;
             tvText = binding.tvText;
+            ivTweetImage = binding.ivTweetImage;
         }
 
         public void bind(Tweet tweet) {
@@ -88,8 +89,8 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
             if (tweet.hasImageUrl()) {
                 Log.d(TAG, "bind: attaching image for " + tweet.getText() + " " + tweet.getImageUrl());
                 Glide.with(context)
-                    .load(tweet.getImageUrl())
-                    .into(binding.ivTweetImage);
+                        .load(tweet.getImageUrl())
+                        .into(ivTweetImage);
             }
 
             Glide.with(context)
