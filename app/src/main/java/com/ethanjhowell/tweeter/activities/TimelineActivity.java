@@ -84,6 +84,7 @@ public class TimelineActivity extends AppCompatActivity {
             Tweet tweet = Parcels.unwrap(data.getParcelableExtra(Tweet.class.getSimpleName()));
             Log.i(TAG, "onActivityResult: returning " + tweet.getText());
             adapter.prepend(tweet);
+            binding.rvTweets.smoothScrollToPosition(0);
         } else
             super.onActivityResult(requestCode, resultCode, data);
     }
