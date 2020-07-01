@@ -15,7 +15,8 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".activities.ComposeActivity"
-            android:parentActivityName=".activities.TimelineActivity" />
+            android:parentActivityName=".activities.TimelineActivity"
+            android:windowSoftInputMode="adjustResize|stateVisible" />
         <activity
             android:name=".activities.TimelineActivity"
             android:launchMode="singleTop" />
