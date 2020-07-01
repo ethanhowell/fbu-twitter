@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.ethanjhowell.tweeter.databinding.ItemTweetBinding;
 import com.ethanjhowell.tweeter.models.Tweet;
 import com.ethanjhowell.tweeter.models.User;
@@ -90,6 +91,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
                 Log.d(TAG, "bind: attaching image for " + tweet.getText() + " " + tweet.getImageUrl());
                 Glide.with(context)
                         .load(tweet.getImageUrl())
+                        .transform(new RoundedCorners(50))
                         .into(ivTweetImage);
             }
 
