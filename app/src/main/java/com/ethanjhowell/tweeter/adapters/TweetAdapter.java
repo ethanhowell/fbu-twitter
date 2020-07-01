@@ -88,11 +88,14 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
             tvText.setText(tweet.getText());
 
             if (tweet.hasImageUrl()) {
+                ivTweetImage.setVisibility(View.VISIBLE);
                 Log.d(TAG, "bind: attaching image for " + tweet.getText() + " " + tweet.getImageUrl());
                 Glide.with(context)
                         .load(tweet.getImageUrl())
                         .transform(new RoundedCorners(50))
                         .into(ivTweetImage);
+            } else {
+                ivTweetImage.setVisibility(View.GONE);
             }
 
             Glide.with(context)
