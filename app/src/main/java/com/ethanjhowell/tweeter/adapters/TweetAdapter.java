@@ -1,6 +1,7 @@
 package com.ethanjhowell.tweeter.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.ethanjhowell.tweeter.databinding.ItemTweetBinding;
 import com.ethanjhowell.tweeter.models.Tweet;
 import com.ethanjhowell.tweeter.models.User;
@@ -64,11 +66,11 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-
-        ImageView ivProfileImage;
-        TextView tvName;
-        TextView tvTweetMeta;
-        TextView tvText;
+        private ImageView ivProfileImage;
+        private TextView tvName;
+        private TextView tvTweetMeta;
+        private TextView tvText;
+        private ImageView ivTweetImage;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -76,6 +78,7 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
             tvName = binding.tvName;
             tvTweetMeta = binding.tvTweetMeta;
             tvText = binding.tvText;
+            ivTweetImage = binding.ivTweetImage;
         }
 
         public void bind(Tweet tweet) {
@@ -83,6 +86,17 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
             tvName.setText(user.getName());
             tvTweetMeta.setText(String.format(" @%s · %s", user.getScreenName(), tweet.getRelativeTimeAgo()));
             tvText.setText(tweet.getText());
+
+            if (tweet.hasImageUrl()) {
+                ivTweetImage.setVisibility(View.VISIBLE);
+                Log.d(TAG, "bind: attaching image for " + tweet.getText() + " " + tweet.getImageUrl());
+                Glide.with(context)
+                        .load(tweet.getImageUrl())
+                        .transform(new RoundedCorners(50))
+                        .into(ivTweetImage);
+            } else {
+                ivTweetImage.setVisibility(View.GONE);
+            }
 
             Glide.with(context)
                     .load(user.getProfileImageUrl())
