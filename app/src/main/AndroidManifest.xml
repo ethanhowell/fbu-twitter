@@ -15,8 +15,10 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".activities.ComposeActivity"
-            android:parentActivityName=".activities.TimelineActivity"></activity>
-        <activity android:name=".activities.TimelineActivity" />
+            android:parentActivityName=".activities.TimelineActivity" />
+        <activity
+            android:name=".activities.TimelineActivity"
+            android:launchMode="singleTop" />
         <activity
             android:name=".activities.LoginActivity"
             android:label="@string/app_name"
