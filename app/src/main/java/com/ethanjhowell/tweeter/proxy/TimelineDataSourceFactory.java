@@ -3,6 +3,7 @@ package com.ethanjhowell.tweeter.proxy;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.MutableLiveData;
 import androidx.paging.DataSource;
 import androidx.paging.ItemKeyedDataSource;
 
@@ -21,10 +22,15 @@ public class TimelineDataSourceFactory extends DataSource.Factory<Long, Tweet> {
         this.mClient = mClient;
     }
 
+    public MutableLiveData<TimelineDataSource> postLiveData;
+
     @NonNull
     @Override
     public DataSource<Long, Tweet> create() {
-        return new TimelineDataSource();
+        TimelineDataSource source = new TimelineDataSource();
+        postLiveData = new MutableLiveData<>();
+        postLiveData.postValue(source);
+        return source;
     }
 
     private class TimelineDataSource extends ItemKeyedDataSource<Long, Tweet> {

@@ -48,7 +48,7 @@ public class TimelineActivity extends AppCompatActivity {
 
         RecyclerView rvTweets = binding.rvTweets;
         adapter = new TweetAdapter(this);
-        populateTimeline();
+        TimelineDataSourceFactory factory = populateTimeline();
         rvTweets.setAdapter(adapter);
         rvTweets.setLayoutManager(new LinearLayoutManager(this));
 
@@ -89,13 +89,16 @@ public class TimelineActivity extends AppCompatActivity {
             super.onActivityResult(requestCode, resultCode, data);
     }
 
-    private void populateTimeline() {
+    private TimelineDataSourceFactory populateTimeline() {
         PagedList.Config build = new PagedList.Config.Builder().setPageSize(200).build();
         TimelineDataSourceFactory factory = new TimelineDataSourceFactory(client);
         LiveData<PagedList<Tweet>> tweets = new LivePagedListBuilder<Long, Tweet>(factory, build).build();
 
         tweets.observe(this, list -> {
             adapter.submitList(list);
+            swipeContainer.setRefreshing(false);
         });
+
+        return factory;
     }
 }
