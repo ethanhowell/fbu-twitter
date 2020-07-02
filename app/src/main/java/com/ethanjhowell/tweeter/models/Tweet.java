@@ -22,6 +22,7 @@ import java.util.concurrent.TimeUnit;
 @Parcel
 public class Tweet {
     private static final String TAG = Tweet.class.getCanonicalName();
+    String id;
     String text;
     String createdAt;
     User user;
@@ -36,6 +37,7 @@ public class Tweet {
     private static final SimpleDateFormat longDateFormat = new SimpleDateFormat("MMM d, yyyy", Locale.US);
 
     public Tweet(JSONObject json) throws JSONException {
+        id = json.getString("id_str");
         setDisplayableText(json);
         createdAt = json.getString("created_at");
         user = new User(json.getJSONObject("user"));
@@ -53,8 +55,12 @@ public class Tweet {
                 }
             }
         } catch (JSONException e) {
-            Log.d(TAG, "Tweet: "+ e.toString());
+            Log.d(TAG, "Tweet: " + e.toString());
         }
+    }
+
+    public String getId() {
+        return id;
     }
 
     public String getImageUrl() {
