@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
+import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -21,13 +23,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> {
+public class TweetAdapter extends ListAdapter<Tweet, TweetAdapter.ViewHolder> {
     private final static String TAG = TweetAdapter.class.getCanonicalName();
     private Context context;
     private List<Tweet> tweets;
     private ItemTweetBinding binding;
 
+    public static final DiffUtil.ItemCallback<Tweet> DIFF_CALLBACK =
+            new DiffUtil.ItemCallback<Tweet>() {
+                @Override
+                public boolean areItemsTheSame(Tweet oldItem, Tweet newItem) {
+                    return oldItem.getId() == newItem.getId();
+                }
+
+                @Override
+                public boolean areContentsTheSame(Tweet oldItem, Tweet newItem) {
+                    return areItemsTheSame(oldItem, newItem);
+                }
+            };
+
     public TweetAdapter(Context context) {
+        super(DIFF_CALLBACK);
         this.context = context;
         this.tweets = new ArrayList<>();
     }
@@ -42,32 +58,27 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.bind(tweets.get(position));
+        holder.bind(getItem(position));
     }
 
     public void clear() {
         tweets.clear();
-        notifyDataSetChanged();
+        submitList(tweets);
     }
 
     public void prepend(Tweet tweet) {
         tweets.add(0, tweet);
-        notifyItemInserted(0);
+        submitList(tweets);
     }
 
     public void addAll(List<Tweet> list) {
         tweets.addAll(list);
-        notifyDataSetChanged();
+        submitList(tweets);
     }
 
     public void setTweets(List<Tweet> tweets) {
         this.tweets = tweets;
-        notifyDataSetChanged();
-    }
-
-    @Override
-    public int getItemCount() {
-        return tweets.size();
+        submitList(tweets);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
