@@ -5,11 +5,10 @@ import android.util.Log;
 
 import androidx.core.text.HtmlCompat;
 
-import com.github.scribejava.apis.TwitterApi;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcel;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -20,12 +19,16 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
+@Parcel
 public class Tweet {
     private static final String TAG = Tweet.class.getCanonicalName();
-    private String text;
-    private String createdAt;
-    private User user;
-    private String imageUrl;
+    String text;
+    String createdAt;
+    User user;
+    String imageUrl;
+
+    Tweet() {
+    }
 
     private static final String twitterPattern = "EEE MMM dd HH:mm:ss ZZZZZ yyyy";
     private static final SimpleDateFormat twitterFormat = new SimpleDateFormat(twitterPattern, Locale.US);

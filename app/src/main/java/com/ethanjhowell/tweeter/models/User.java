@@ -2,11 +2,16 @@ package com.ethanjhowell.tweeter.models;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcel;
 
+@Parcel
 public class User {
-    private String name;
-    private String screenName;
-    private String profileImageUrl;
+    String name;
+    String screenName;
+    String profileImageUrl;
+
+    User() {
+    }
 
     public User(JSONObject json) throws JSONException {
         name = json.getString("name");
