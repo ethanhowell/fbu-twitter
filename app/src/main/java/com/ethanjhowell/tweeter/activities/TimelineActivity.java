@@ -91,7 +91,7 @@ public class TimelineActivity extends AppCompatActivity {
 
     private void populateTimeline() {
         Log.d(TAG, "populateTimeline: fetching timeline");
-        client.getHomeTimeline(new JsonHttpResponseHandler() {
+        client.getHomeTimeline(null, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Headers headers, JSON json) {
                 Log.i(TAG, "onSuccess: " + json.toString());

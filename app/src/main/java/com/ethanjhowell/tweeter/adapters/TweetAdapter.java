@@ -9,8 +9,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.paging.PagedList;
+import androidx.paging.PagedListAdapter;
 import androidx.recyclerview.widget.DiffUtil;
-import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -19,11 +20,14 @@ import com.ethanjhowell.tweeter.databinding.ItemTweetBinding;
 import com.ethanjhowell.tweeter.models.Tweet;
 import com.ethanjhowell.tweeter.models.User;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
-public class TweetAdapter extends ListAdapter<Tweet, TweetAdapter.ViewHolder> {
+public class TweetAdapter extends PagedListAdapter<Tweet, TweetAdapter.ViewHolder> {
     private final static String TAG = TweetAdapter.class.getCanonicalName();
     private Context context;
     private List<Tweet> tweets;
@@ -33,11 +37,11 @@ public class TweetAdapter extends ListAdapter<Tweet, TweetAdapter.ViewHolder> {
             new DiffUtil.ItemCallback<Tweet>() {
                 @Override
                 public boolean areItemsTheSame(Tweet oldItem, Tweet newItem) {
-                    return oldItem.getId() == newItem.getId();
+                    return oldItem.getId().equals(newItem.getId());
                 }
 
                 @Override
-                public boolean areContentsTheSame(Tweet oldItem, Tweet newItem) {
+                public boolean areContentsTheSame(@NotNull Tweet oldItem, @NotNull Tweet newItem) {
                     return areItemsTheSame(oldItem, newItem);
                 }
             };
@@ -58,27 +62,27 @@ public class TweetAdapter extends ListAdapter<Tweet, TweetAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.bind(getItem(position));
+        holder.bind(Objects.requireNonNull(getItem(position)));
     }
 
     public void clear() {
         tweets.clear();
-        submitList(tweets);
+        submitList((PagedList<Tweet>) tweets);
     }
 
     public void prepend(Tweet tweet) {
         tweets.add(0, tweet);
-        submitList(tweets);
+        submitList((PagedList<Tweet>) tweets);
     }
 
     public void addAll(List<Tweet> list) {
         tweets.addAll(list);
-        submitList(tweets);
+        submitList((PagedList<Tweet>) tweets);
     }
 
     public void setTweets(List<Tweet> tweets) {
         this.tweets = tweets;
-        submitList(tweets);
+        submitList((PagedList<Tweet>) tweets);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
